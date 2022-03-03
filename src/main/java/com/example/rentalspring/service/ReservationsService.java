@@ -7,11 +7,11 @@ import java.util.List;
 
 public interface ReservationsService {
 
-    public List < Reservations > getReservations();
+    List < Reservations > getReservations();
 
-    public void saveReservation(Reservations theReservation);
+    void saveReservation(Reservations theReservation);
 
-    public Reservations getReservation(int Id);
+    Reservations getReservation(int Id);
 
-    public Reservations deleteReservation(int Id);
+    Reservations deleteReservation(int Id);
 }

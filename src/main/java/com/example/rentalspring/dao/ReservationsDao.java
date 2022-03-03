@@ -8,9 +8,9 @@ public interface ReservationsDao
 {
     List <Reservations> getReservations();
 
-    public void saveReservation(Reservations theReservations);
+    void saveReservation(Reservations theReservations);
 
-    public Reservations getReservation(int id);
+    Reservations getReservation(int id);
 
-    public void deleteReservation(int id);
+    void deleteReservation(int id);
 }

@@ -1,12 +1,10 @@
 package com.example.rentalspring.controller;
 
 import com.example.rentalspring.domain.Cars;
-import com.example.rentalspring.domain.Users;
+import com.example.rentalspring.domain.Reservations;
 import com.example.rentalspring.service.CarsService;
-import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
@@ -19,6 +17,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/")
 public class CarsController {
+
     @Autowired
     private CarsService carsService;
 
@@ -71,19 +70,28 @@ public class CarsController {
 
     @GetMapping("/searchCar")
     public String availableCars(Model theModel, @RequestParam("dateFrom") Date dateFrom, @RequestParam("dateTo") Date dateTo) {
+
+
         List<Cars> theCars = carsService.getAvailableCars(dateFrom, dateTo);
         theModel.addAttribute("cars", theCars);
+
+
+        Reservations theReservation = new Reservations();
+        theModel.addAttribute("addReservation", theReservation);
+
+
         theModel.addAttribute("titolo", "Stai eseguendo un noleggio auto");
         theModel.addAttribute("ToSearch", "hidden");
         theModel.addAttribute("button_verify", "Verifica Disponibilità");
         theModel.addAttribute("button_ok_text", "Conferma Noleggio");
         theModel.addAttribute("messageSelect", "Seleziona l'auto da noleggiare");
 
-        SimpleDateFormat dateS = new SimpleDateFormat("yyyy-MM-dd");
-        String a = dateS.format(dateFrom);
+        SimpleDateFormat pattern = new SimpleDateFormat("yyyy-MM-dd");
+        String dateFromConvert = pattern.format(dateFrom);
+        String dateToConvert = pattern.format(dateTo);
 
-        theModel.addAttribute("dateFromSelect", a);
-        theModel.addAttribute("dateToSelect", dateTo);
+        theModel.addAttribute("dateFromSelect", dateFromConvert);
+        theModel.addAttribute("dateToSelect", dateToConvert);
         return "manageReservation";
     }
 

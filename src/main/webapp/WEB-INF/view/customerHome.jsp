@@ -18,6 +18,7 @@
             <tr>
                 <th scope="col"></th>
                 <th scope="col"></th>
+                <th scope="col" >Auto</th>
                 <th scope="col">Data</th>
                 <th scope="col">A</th>
                 <th scope="col">Stato</th>
@@ -42,7 +43,8 @@
                             </button>
                         </form>
                     </th>
-                    <th>${reservation.startDate}</th>
+                    <td class="bg-success">${reservation.car.model}</td>
+                    <td>${reservation.startDate}</td>
                     <td>${reservation.endDate}</td>
                     <td><span class="badge badge-success">${reservation.status}</span></td>
                 </tr>

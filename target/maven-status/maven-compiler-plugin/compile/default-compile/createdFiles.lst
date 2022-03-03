@@ -1,4 +1,3 @@
-com\example\rentalspring\controller\IndexController.class
 com\example\rentalspring\dao\ReservationsDaoImpl.class
 com\example\rentalspring\dao\GenericRepository.class
 com\example\rentalspring\controller\CarsController.class

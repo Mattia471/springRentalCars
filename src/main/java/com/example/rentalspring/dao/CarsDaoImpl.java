@@ -58,7 +58,7 @@ public class CarsDaoImpl extends AbstractDao<Cars, Integer>
 
             cbCars.add(
                     // replace "id" below with property name, depending on what you're filtering against
-                    Restrictions.or(Restrictions.in("id", carsId),Restrictions.gt("id", 0))
+                    Restrictions.not(Restrictions.in("id", carsId))
             );
 
         return (List<Cars>) cbCars.list();

@@ -2,7 +2,10 @@ package com.example.rentalspring.controller;
 
 import com.example.rentalspring.domain.Cars;
 import com.example.rentalspring.domain.Reservations;
+import com.example.rentalspring.domain.Users;
+import com.example.rentalspring.service.CarsService;
 import com.example.rentalspring.service.ReservationsService;
+import com.example.rentalspring.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -14,11 +17,24 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+
 @Controller
 @RequestMapping("/")
 public class ReservationsController {
+
     @Autowired
     private ReservationsService reservationsService;
+
+
+    //instanzio i servizi di tutto le entità per utilizzare all'interno del controller
+    private final UsersService usersService;
+    private final CarsService carsService;
+
+    public ReservationsController(ReservationsService reservationsService, UsersService usersService, CarsService carsService) {
+        this.reservationsService = reservationsService;
+        this.usersService = usersService;
+        this.carsService = carsService;
+    }
 
 
     //QUESTO METODO PERMETTE DI CONVERTIRE AUTOMATICAMENTE LE DATE NEL PATTERN RICHIESTO
@@ -30,11 +46,20 @@ public class ReservationsController {
 
     }
 
+
     //POST
     @PostMapping(value = "/saveReservation")
-    public String saveReservation(@ModelAttribute("reservation") Reservations theReservation) {
-        reservationsService.saveReservation(theReservation);
-        return "redirect:/listCar";
+    public String saveReservation(@ModelAttribute("addReservation") Reservations theReservation, @RequestParam("startDate") Date startDate, @RequestParam("endDate") Date endDate,@RequestParam("carId") int carID,  @RequestParam("userId") int userID) {
+        //creo gli oggetti ricavati grazie agl ID
+        Users user = usersService.getCustomer(userID);
+        Cars car = carsService.getCar(carID);
+
+        //instanzio l'oggetto reservation
+        Reservations createReservations = new Reservations(startDate,endDate,user,car,"IN ATTESA");
+
+        //lo mando al metodo saveReservation che aggiorna o crea a seconda se trova l'id o no
+        reservationsService.saveReservation(createReservations);
+        return "redirect:/listReservations";
     }
 
     //GET
@@ -50,7 +75,8 @@ public class ReservationsController {
     @GetMapping("/newReservation")
     public String showFormForAdd(Model theModel) {
         Reservations theReservation = new Reservations();
-        theModel.addAttribute("reservation", theReservation);
+        theModel.addAttribute("addReservation", theReservation);
+
         theModel.addAttribute("titolo", "Stai eseguendo un noleggio auto");
         theModel.addAttribute("ToSearch", "hidden");
         theModel.addAttribute("button_verify", "Verifica Disponibilità");
@@ -70,10 +96,13 @@ public class ReservationsController {
         return "manageCar";
     }
 
+
+
     @GetMapping("/deleteReservation")
     public String deleteCustomer(@RequestParam("reservationId") int theId) {
         reservationsService.deleteReservation(theId);
         return "redirect:/listCar";
     }
+
 }
 

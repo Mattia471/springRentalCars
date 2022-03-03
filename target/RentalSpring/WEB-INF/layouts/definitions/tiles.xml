@@ -47,4 +47,5 @@
         <put-attribute name="content" value="/WEB-INF/view/manageReservation.jsp"/>
     </definition>
 
+
 </tiles-definitions>
