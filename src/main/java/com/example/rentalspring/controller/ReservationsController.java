@@ -72,6 +72,16 @@ public class ReservationsController {
         return "customerHome";
     }
 
+    @GetMapping("/listReservationsUser")
+    public String listReservationsUser(Model theModel,@RequestParam("userId") int id) {
+        List<Reservations> theReservations = reservationsService.getReservationsUsers(id);
+
+        theModel.addAttribute("reservations", theReservations);
+        theModel.addAttribute("titolo", "Storico Prenotazioni");
+        theModel.addAttribute("ToSearch", "hidden");
+        return "customerHome";
+    }
+
     @GetMapping("/newReservation")
     public String showFormForAdd(Model theModel) {
         Reservations theReservation = new Reservations();

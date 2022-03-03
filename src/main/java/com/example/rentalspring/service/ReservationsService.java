@@ -9,6 +9,8 @@ public interface ReservationsService {
 
     List < Reservations > getReservations();
 
+    List <Reservations> getReservationsUsers(int id);
+
     void saveReservation(Reservations theReservation);
 
     Reservations getReservation(int Id);

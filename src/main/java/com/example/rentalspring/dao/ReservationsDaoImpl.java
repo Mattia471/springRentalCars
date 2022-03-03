@@ -1,8 +1,12 @@
 package com.example.rentalspring.dao;
 
 
+import com.example.rentalspring.domain.Cars;
 import com.example.rentalspring.domain.Reservations;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
@@ -26,6 +30,20 @@ public class ReservationsDaoImpl extends AbstractDao<Reservations, Integer>
         cq.select(root);
         Query query = session.createQuery(cq);
         return query.getResultList();
+    }
+
+    @Override
+    public List<Reservations> getReservationsUsers(int id) {
+        Session session = entityManager.unwrap(Session.class);
+
+        //RESERVATIONS
+        Criteria cbReservation = session.createCriteria(Reservations.class);
+
+        Criterion q1R = Restrictions.eq("user.id",id);
+
+        cbReservation.add(q1R);
+
+        return (List<Reservations>) cbReservation.list();
     }
 
     @Override

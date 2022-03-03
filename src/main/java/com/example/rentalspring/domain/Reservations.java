@@ -23,7 +23,6 @@ public class Reservations implements Serializable {
     @Column
     private Date endDate;
 
-
     //join con tabella USERS
     @ManyToOne
     @JoinColumn(name="userId", nullable = false)

@@ -18,6 +18,7 @@
             <tr>
                 <th scope="col"></th>
                 <th scope="col"></th>
+                <th></th>
                 <th scope="col">Nome</th>
                 <th scope="col">Cognome</th>
                 <th scope="col">Email</th>
@@ -39,6 +40,14 @@
                             <input type="text" name="customerId" value="${customer.id}" hidden>
                             <button type="submit" class="btn btn-danger">
                                 <i class="bi bi-trash3"></i>
+                            </button>
+                        </form>
+                    </th>
+                    <th style="width: 5%">
+                        <form action="listReservationsUser" method="get">
+                            <input type="text" name="userId" value="${customer.id}" hidden>
+                            <button type="submit" class="btn btn-success">
+                                <i class="bi bi-list"></i>
                             </button>
                         </form>
                     </th>

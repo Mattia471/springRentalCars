@@ -8,6 +8,8 @@ public interface ReservationsDao
 {
     List <Reservations> getReservations();
 
+    List <Reservations> getReservationsUsers(int id);
+
     void saveReservation(Reservations theReservations);
 
     Reservations getReservation(int id);

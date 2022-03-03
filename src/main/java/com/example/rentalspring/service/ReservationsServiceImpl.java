@@ -24,6 +24,11 @@ public class ReservationsServiceImpl implements ReservationsService
     }
 
     @Override
+    public List<Reservations> getReservationsUsers(int id) {
+        return reservationsDao.getReservationsUsers(id);
+    }
+
+    @Override
     @Transactional
     public void saveReservation(Reservations theReservation) {
         reservationsDao.saveReservation(theReservation);
