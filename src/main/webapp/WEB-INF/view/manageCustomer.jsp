@@ -40,7 +40,7 @@
         </div>
         <div class="col">
             <label>*</label>
-            <form:input path="id" id="id" type="number"/>
+            <form:input path="id" id="id" type="hidden"/>
             <input type="submit" class="form-control btn btn-success" value="Crea utente">
         </div>
     </div>

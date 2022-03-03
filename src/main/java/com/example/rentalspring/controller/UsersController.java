@@ -3,10 +3,14 @@ package com.example.rentalspring.controller;
 import com.example.rentalspring.domain.Users;
 import com.example.rentalspring.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -14,6 +18,16 @@ import java.util.List;
 public class UsersController {
     @Autowired
     private UsersService usersService;
+
+    //QUESTO METODO PERMETTE DI CONVERTIRE AUTOMATICAMENTE LE DATE NEL PATTERN RICHIESTO
+    //DA STUDIARE
+    @InitBinder
+    public void initBinder(WebDataBinder dataBinder) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        dataBinder.registerCustomEditor(Date.class, new CustomDateEditor(simpleDateFormat, false));
+
+    }
+
 
     //POST
     @PostMapping(value = "/saveCustomer")
@@ -47,11 +61,12 @@ public class UsersController {
     @GetMapping("/viewProfile")
     public String viewProfile(Model theModel, @RequestParam("customerId") int theId) {
         Users theCustomer = usersService.getCustomer(theId);
+        theModel.addAttribute("customerId", theId);
         theModel.addAttribute("customer", theCustomer);
         theModel.addAttribute("titolo", "Profilo utente");
         theModel.addAttribute("button", "Modifica Dati");
         theModel.addAttribute("ToSearch", "hidden");
-        return "viewProfile";
+        return "manageCustomer";
     }
 
     @GetMapping("/searchUsers")

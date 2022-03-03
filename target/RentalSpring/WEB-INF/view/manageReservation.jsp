@@ -1,31 +1,39 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 
 <div class="container">
-<center><h1>${titolo}</h1></center>
-<form:form action="searchCar" method="get">
-    <div class="row">
-        <div class="col">
-            <label>Data Inizio:</label>
-            <input type="date" name="dateFrom" class="form-control border-success" required
-                   <c:if test = "${dateFromSelect!=null}">value="${dateFromSelect}" </c:if>>
+
+    <center><h1>${titolo}</h1></center>
+
+    <form action="searchCar" method="GET">
+        <div class="row">
+            <div class="col">
+                <label>Data Inizio:</label>
+                <input type="date" name="dateFrom" class="form-control border-success" required>
+            </div>
+            <div class="col">
+                <label>Data Consegna:</label>
+                <input type="date" name="dateTo" class="form-control border-success" required>
+            </div>
+            <div class="col-3">
+                <label>*</label>
+                <button type="submit" class="btn btn-primary form-control">${button_verify}</button>
+            </div>
         </div>
-        <div class="col">
-            <label>Data Consegna:</label>
-            <input type="date" name="dateTo" class="form-control border-success" required
-                   <c:if test = "${dateToSelect!=null}">value="${dateToSelect}" </c:if>>
-        </div>
-        <div class="col-3">
-            <label>*</label>
-            <button type="submit" class="btn btn-primary form-control">${button_verify}</button>
-        </div>
-    </div>
-</form:form>
+    </form>
+
+
     <hr>
-    <center><b>${messageSelect}</b></center>
+
+    <form:form action="saveReservation" modelAttribute="reservation" method="POST">
+    ${dateFromSelect}
+        <form:input path="endDate" type="date" cssClass="form-control border-success"/>
+        <form:input path="endDate" type="date" cssClass="form-control border-success"/>
+        <center><b>${messageSelect}</b></center>
     <div class="row">
         <table class="table table-bordered table-dark ">
             <thead>
@@ -41,8 +49,8 @@
             <c:forEach var="car" items="${cars}">
                 <tr>
                     <th style="width: 5%">
-                            <input type="text" name="carId" value="${car.id}" hidden>
-                            <input type="checkbox" class="form-control">
+                        <form:input path="user" type="number"  cssClass="form-control border-success"/>
+                        <form:checkbox path="car" type="number" cssClass="form-control border-success"/>
                     </th>
                     <th>${car.model}</th>
                     <td>${car.licensePlate}</td>
@@ -59,9 +67,10 @@
     <div class="row">
         <div class="col">
             <label>*</label>
-            <input type="submit" class="form-control btn btn-success" value="${button_ok}">
+            <input type="submit" class="form-control btn btn-success" value="${button_ok_text}" ${button_ok_show}>
         </div>
     </div>
-    </div>
+    </form:form>
+</div>
 
 </div>

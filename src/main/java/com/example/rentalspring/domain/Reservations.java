@@ -16,12 +16,10 @@ public class Reservations implements Serializable {
     private int id;
 
     @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern="yyyy-MM-dd")
     @Column
     private Date startDate;
 
     @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern="yyyy-MM-dd")
     @Column
     private Date endDate;
 

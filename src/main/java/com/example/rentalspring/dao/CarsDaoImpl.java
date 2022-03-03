@@ -56,10 +56,10 @@ public class CarsDaoImpl extends AbstractDao<Cars, Integer>
         //CARS
         Criteria cbCars = session.createCriteria(Cars.class);
 
-        cbCars.add(
-                        // replace "id" below with property name, depending on what you're filtering against
-                        Restrictions.in("id", carsId)
-                );
+            cbCars.add(
+                    // replace "id" below with property name, depending on what you're filtering against
+                    Restrictions.or(Restrictions.in("id", carsId),Restrictions.gt("id", 0))
+            );
 
         return (List<Cars>) cbCars.list();
 
