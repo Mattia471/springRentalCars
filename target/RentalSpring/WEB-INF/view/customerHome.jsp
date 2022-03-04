@@ -27,22 +27,44 @@
             <tbody>
             <c:forEach var="reservation" items="${reservations}">
                 <tr>
-                    <th style="width: 5%">
-                        <form action="viewProfile" method="get">
-                            <input type="text" name="customerId" value="${reservation.id}" hidden>
-                            <button type="submit" class="btn btn-secondary">
-                                <i class="bi bi-pencil-square"></i>
-                            </button>
-                        </form>
-                    </th>
-                    <th style="width: 5%">
-                        <form action="deleteCustomer" method="get">
-                            <input type="text" name="customerId" value="${reservation.id}" hidden>
-                            <button type="submit" class="btn btn-danger">
-                                <i class="bi bi-trash3"></i>
-                            </button>
-                        </form>
-                    </th>
+                    <c:choose>
+                        <c:when test="${user.isAdmin}">
+                            <th style="width: 5%">
+                                <form action="declineReservation" method="get">
+                                    <input type="text" name="reservationId" value="${reservation.id}" hidden>
+                                    <button type="submit" class="btn btn-danger">
+                                        <i class="bi bi-x"></i>
+                                    </button>
+                                </form>
+                            </th>
+                            <th style="width: 5%">
+                                <form action="approveReservation" method="get">
+                                    <input type="text" name="reservationId" value="${reservation.id}" hidden>
+                                    <button type="submit" class="btn btn-success">
+                                        <i class="bi bi-check-lg"></i>
+                                    </button>
+                                </form>
+                            </th>
+                        </c:when>
+                        <c:otherwise>
+                            <th style="width: 5%">
+                                <form action="viewProfile" method="get">
+                                    <input type="text" name="customerId" value="${reservation.id}" hidden>
+                                    <button type="submit" class="btn btn-secondary">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </button>
+                                </form>
+                            </th>
+                            <th style="width: 5%">
+                                <form action="deleteReservation" method="get">
+                                    <input type="text" name="reservationId" value="${reservation.id}" hidden>
+                                    <button type="submit" class="btn btn-danger">
+                                        <i class="bi bi-trash3"></i>
+                                    </button>
+                                </form>
+                            </th>
+                        </c:otherwise>
+                    </c:choose>
                     <td class="bg-success">${reservation.car.model}</td>
                     <td>${reservation.startDate}</td>
                     <td>${reservation.endDate}</td>

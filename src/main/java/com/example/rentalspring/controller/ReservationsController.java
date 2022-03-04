@@ -111,7 +111,7 @@ public class ReservationsController {
     @GetMapping("/deleteReservation")
     public String deleteCustomer(@RequestParam("reservationId") int theId) {
         reservationsService.deleteReservation(theId);
-        return "redirect:/listCar";
+        return "redirect:listReservations";
     }
 
 }
