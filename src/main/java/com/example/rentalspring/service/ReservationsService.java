@@ -15,5 +15,9 @@ public interface ReservationsService {
 
     Reservations getReservation(int Id);
 
+    void approveReservation(int id);
+
+    void declineReservation(int id);
+
     Reservations deleteReservation(int Id);
 }

@@ -18,7 +18,7 @@
             <tr>
                 <th scope="col"></th>
                 <th scope="col"></th>
-                <th scope="col" >Auto</th>
+                <th scope="col">Auto</th>
                 <th scope="col">Data</th>
                 <th scope="col">A</th>
                 <th scope="col">Stato</th>
@@ -68,7 +68,15 @@
                     <td class="bg-success">${reservation.car.model}</td>
                     <td>${reservation.startDate}</td>
                     <td>${reservation.endDate}</td>
-                    <td><span class="badge badge-success">${reservation.status}</span></td>
+                    <td>
+                        <c:choose>
+                            <c:when test="${reservation.status=='CONFERMATA'}">
+                                <span class="badge badge-success">${reservation.status}</span></td>
+                            </c:when>
+                            <c:otherwise>
+                                <span class="badge badge-danger">${reservation.status}</span></td>
+                            </c:otherwise>
+                        </c:choose>
                 </tr>
             </c:forEach>
             </tbody>

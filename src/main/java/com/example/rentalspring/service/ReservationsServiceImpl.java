@@ -41,6 +41,16 @@ public class ReservationsServiceImpl implements ReservationsService
     }
 
     @Override
+    public void approveReservation(int id) {
+        reservationsDao.approveReservation(id);
+    }
+
+    @Override
+    public void declineReservation(int id) {
+        reservationsDao.declineReservation(id);
+    }
+
+    @Override
     @Transactional
     public Reservations deleteReservation(int id) {
         reservationsDao.deleteReservation(id);

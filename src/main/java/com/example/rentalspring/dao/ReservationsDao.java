@@ -14,5 +14,9 @@ public interface ReservationsDao
 
     Reservations getReservation(int id);
 
+    void approveReservation(int id);
+
+    void declineReservation(int id);
+
     void deleteReservation(int id);
 }

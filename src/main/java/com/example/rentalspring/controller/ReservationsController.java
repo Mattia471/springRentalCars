@@ -107,6 +107,18 @@ public class ReservationsController {
     }
 
 
+    @GetMapping("/approveReservation")
+    public String approveReservation(@RequestParam("reservationId") int theId) {
+        reservationsService.approveReservation(theId);
+        return "redirect:listReservations";
+    }
+
+    @GetMapping("/declineReservation")
+    public String declineReservation(@RequestParam("reservationId") int theId) {
+        reservationsService.declineReservation(theId);
+        return "redirect:listReservations";
+    }
+
 
     @GetMapping("/deleteReservation")
     public String deleteCustomer(@RequestParam("reservationId") int theId) {

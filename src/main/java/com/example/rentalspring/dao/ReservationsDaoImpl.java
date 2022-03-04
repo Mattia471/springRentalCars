@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.CriteriaUpdate;
 import javax.persistence.criteria.Root;
 import java.util.List;
 
@@ -64,5 +65,43 @@ public class ReservationsDaoImpl extends AbstractDao<Reservations, Integer>
         Session currentSession = entityManager.unwrap(Session.class);
         Reservations theReservation = currentSession.get(Reservations.class, theId);
         return theReservation;
+    }
+
+    @Override
+    public void approveReservation(int id) {
+        CriteriaBuilder cb = this.entityManager.getCriteriaBuilder();
+
+        // create update
+        CriteriaUpdate<Reservations> update = cb.
+                createCriteriaUpdate(Reservations.class);
+
+        // set the root class
+        Root reservationsRoot = update.from(Reservations.class);
+
+        // set update and where clause
+        update.set("status", "CONFERMATA");
+        update.where(cb.equal(reservationsRoot.get("id"), id));
+
+        // perform update
+        this.entityManager.createQuery(update).executeUpdate();
+    }
+
+    @Override
+    public void declineReservation(int id) {
+        CriteriaBuilder cb = this.entityManager.getCriteriaBuilder();
+
+        // create update
+        CriteriaUpdate<Reservations> update = cb.
+                createCriteriaUpdate(Reservations.class);
+
+        // set the root class
+        Root reservationsRoot = update.from(Reservations.class);
+
+        // set update and where clause
+        update.set("status", "RIFIUTATA");
+        update.where(cb.equal(reservationsRoot.get("id"), id));
+
+        // perform update
+        this.entityManager.createQuery(update).executeUpdate();
     }
 }
