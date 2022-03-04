@@ -69,7 +69,7 @@ public class CarsController {
 
 
     @GetMapping("/searchCar")
-    public String availableCars(Model theModel, @RequestParam("dateFrom") Date dateFrom, @RequestParam("dateTo") Date dateTo) {
+    public String availableCars(Model theModel,@RequestParam("reservationId") int reservationId, @RequestParam("dateFrom") Date dateFrom, @RequestParam("dateTo") Date dateTo) {
 
 
         List<Cars> theCars = carsService.getAvailableCars(dateFrom, dateTo);
@@ -78,6 +78,9 @@ public class CarsController {
 
         Reservations theReservation = new Reservations();
         theModel.addAttribute("addReservation", theReservation);
+
+        theModel.addAttribute("reservationId", reservationId);
+
 
 
         theModel.addAttribute("titolo", "Stai eseguendo un noleggio auto");

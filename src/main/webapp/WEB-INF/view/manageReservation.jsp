@@ -13,14 +13,24 @@
         <div class="row">
             <div class="col">
                 <label>Data Inizio:</label>
-                <input type="date" name="dateFrom" class="form-control border-success" required>
+                <input type="date" name="dateFrom" class="form-control border-success"
+                        <c:if test="${dateFromSelect!=null}">value="${dateFromSelect}" </c:if> required>
             </div>
             <div class="col">
                 <label>Data Consegna:</label>
-                <input type="date" name="dateTo" class="form-control border-success" required>
+                <input type="date" name="dateTo" class="form-control border-success"
+                       <c:if test="${dateToSelect!=null}">value="${dateToSelect}" </c:if> required>
             </div>
             <div class="col-3">
                 <label>*</label>
+                <c:choose>
+                    <c:when test="${reservationId!=null}">
+                        <input type="text" name="reservationId" class="form-control border-success" value="${reservationId}" hidden>
+                    </c:when>
+                    <c:otherwise>
+                        <input type="text" name="reservationId" class="form-control border-success" value="0" hidden>
+                    </c:otherwise>
+                </c:choose>
                 <button type="submit" class="btn btn-primary form-control">${button_verify}</button>
             </div>
         </div>
@@ -34,6 +44,15 @@
         <input name="startDate" value="${dateFromSelect}" hidden>
         <input name="endDate" value="${dateToSelect}" hidden >
         <input value="29" name="userId" hidden> <!--DA MODIFICARE CON ID DELL'UTENTE APPENA SARA' POSSIBILE-->
+
+        <c:choose>
+            <c:when test="${reservationId!=null}">
+                <input type="text" name="reservationId" class="form-control border-success" value="${reservationId}" hidden>
+            </c:when>
+            <c:otherwise>
+                <input type="text" name="reservationId" class="form-control border-success" value="0" hidden>
+            </c:otherwise>
+        </c:choose>
         <center><b style="font-size: 20px">${messageSelect}</b></center>
         <div class="row">
             <table class="table table-bordered table-dark ">
@@ -66,7 +85,7 @@
         <div class="row">
             <div class="col">
                 <label>*</label>
-                <input type="submit" class="form-control btn btn-success" value="${button_ok_text}">
+                <input type="submit" class="form-control btn btn-success" value="${button_ok_text}" ${button_ok_show}>
             </div>
         </div>
 

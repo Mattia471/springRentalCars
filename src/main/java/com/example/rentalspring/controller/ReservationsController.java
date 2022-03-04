@@ -49,16 +49,24 @@ public class ReservationsController {
 
     //POST
     @PostMapping(value = "/saveReservation")
-    public String saveReservation(@ModelAttribute("addReservation") Reservations theReservation, @RequestParam("startDate") Date startDate, @RequestParam("endDate") Date endDate,@RequestParam("carId") int carID,  @RequestParam("userId") int userID) {
+    public String saveReservation(@ModelAttribute("addReservation") Reservations theReservation,@RequestParam("reservationId") int reservationId, @RequestParam("startDate") Date startDate, @RequestParam("endDate") Date endDate,@RequestParam("carId") int carID,  @RequestParam("userId") int userID) {
         //creo gli oggetti ricavati grazie agl ID
         Users user = usersService.getCustomer(userID);
         Cars car = carsService.getCar(carID);
 
+        //ricerca se prenotazione gia esistente tramite id
+        Reservations reservations = reservationsService.getReservation(reservationId);
+
+
         //instanzio l'oggetto reservation
         Reservations createReservations = new Reservations(startDate,endDate,user,car,"IN ATTESA");
 
-        //lo mando al metodo saveReservation che aggiorna o crea a seconda se trova l'id o no
-        reservationsService.saveReservation(createReservations);
+        if(reservations!=null) {
+            //lo mando al metodo saveReservation che aggiorna o crea a seconda se trova l'id o no
+            reservationsService.editReservation(reservationId,startDate,endDate,car);
+        }else{
+            reservationsService.saveReservation(createReservations);
+        }
         return "redirect:/listReservations";
     }
 
@@ -79,6 +87,8 @@ public class ReservationsController {
         theModel.addAttribute("reservations", theReservations);
         theModel.addAttribute("titolo", "Storico Prenotazioni");
         theModel.addAttribute("ToSearch", "hidden");
+        theModel.addAttribute("noShow", "hidden");
+
         return "customerHome";
     }
 
@@ -91,6 +101,28 @@ public class ReservationsController {
         theModel.addAttribute("ToSearch", "hidden");
         theModel.addAttribute("button_verify", "Verifica Disponibilità");
         theModel.addAttribute("button_ok_show", "hidden");
+
+        return "manageReservation";
+    }
+
+    @GetMapping("/editReservation")
+    public String showFormForEdit(Model theModel, @RequestParam("reservationId") int theId, @RequestParam("dateFrom") Date dateFrom, @RequestParam("dateTo") Date dateTo) {
+        Reservations theReservation = new Reservations();
+        theModel.addAttribute("addReservation", theReservation);
+
+        theModel.addAttribute("titolo", "Stai modificando la tua prenotazione");
+        theModel.addAttribute("ToSearch", "hidden");
+        theModel.addAttribute("button_verify", "Verifica Disponibilità");
+        theModel.addAttribute("button_ok_show", "hidden");
+
+
+        SimpleDateFormat pattern = new SimpleDateFormat("yyyy-MM-dd");
+        String dateFromConvert = pattern.format(dateFrom);
+        String dateToConvert = pattern.format(dateTo);
+
+        theModel.addAttribute("reservationId", theId);
+        theModel.addAttribute("dateFromSelect", dateFromConvert);
+        theModel.addAttribute("dateToSelect", dateToConvert);
 
         return "manageReservation";
     }

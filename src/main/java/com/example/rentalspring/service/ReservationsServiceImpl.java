@@ -1,11 +1,13 @@
 package com.example.rentalspring.service;
 
 import com.example.rentalspring.dao.ReservationsDao;
+import com.example.rentalspring.domain.Cars;
 import com.example.rentalspring.domain.Reservations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Date;
 import java.util.List;
 
 @Service("reservationsService")
@@ -32,6 +34,11 @@ public class ReservationsServiceImpl implements ReservationsService
     @Transactional
     public void saveReservation(Reservations theReservation) {
         reservationsDao.saveReservation(theReservation);
+    }
+
+    @Override
+    public void editReservation(int theId, Date startDate, Date endDate, Cars carId) {
+        reservationsDao.editReservation(theId, startDate, endDate, carId);
     }
 
     @Override

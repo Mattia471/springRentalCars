@@ -14,6 +14,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.CriteriaUpdate;
 import javax.persistence.criteria.Root;
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -58,6 +59,27 @@ public class ReservationsDaoImpl extends AbstractDao<Reservations, Integer>
     public void saveReservation(Reservations theReservation) {
         Session currentSession = entityManager.unwrap(Session.class);
         currentSession.saveOrUpdate(theReservation);
+    }
+
+    @Override
+    public void editReservation(int theId, Date startDate, Date endDate, Cars carId) {
+        CriteriaBuilder cb = this.entityManager.getCriteriaBuilder();
+
+        // create update
+        CriteriaUpdate<Reservations> update = cb.
+                createCriteriaUpdate(Reservations.class);
+
+        // set the root class
+        Root reservationsRoot = update.from(Reservations.class);
+
+        // set update and where clause
+        update.set("car", carId);
+        update.set("startDate", startDate);
+        update.set("endDate", endDate);
+        update.where(cb.equal(reservationsRoot.get("id"), theId));
+
+        // perform update
+        this.entityManager.createQuery(update).executeUpdate();
     }
 
     @Override

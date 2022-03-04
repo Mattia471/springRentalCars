@@ -1,8 +1,10 @@
 package com.example.rentalspring.service;
 
 
+import com.example.rentalspring.domain.Cars;
 import com.example.rentalspring.domain.Reservations;
 
+import java.util.Date;
 import java.util.List;
 
 public interface ReservationsService {
@@ -12,6 +14,8 @@ public interface ReservationsService {
     List <Reservations> getReservationsUsers(int id);
 
     void saveReservation(Reservations theReservation);
+
+    void editReservation(int theId, Date startDate, Date endDate, Cars carId);
 
     Reservations getReservation(int Id);
 
