@@ -29,7 +29,6 @@
             <c:forEach var="reservation" items="${reservations}">
                 <!--tramite parseNumber assegno ad una variabile differenceDays la differenza tra la data di inizio noleggio e la data di oggi passata da servlet now diviso per (secondi*minuti*ore)/1000 ottenendo i millisecondi-->
                 <fmt:parseNumber var="differenceDays" value="${((reservation.startDate.time - now.time) / (1000*60*60*24)) /10 }" />
-                ${differenceDays}
                 <tr>
                     <c:choose>
                         <c:when test="${user.isAdmin}">

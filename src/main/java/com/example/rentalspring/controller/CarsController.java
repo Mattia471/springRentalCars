@@ -76,25 +76,30 @@ public class CarsController {
         theModel.addAttribute("cars", theCars);
 
 
-        Reservations theReservation = new Reservations();
-        theModel.addAttribute("addReservation", theReservation);
+        if(dateFrom.after(dateTo) || dateTo.before(dateFrom)){
+            theModel.addAttribute("messageSelect", "Attenzione! Date inserite non corrette, reinseriscile");
+            theModel.addAttribute("button_ok_show", "hidden");
+            theModel.addAttribute("button_verify", "Verifica Disponibilità");
+            theModel.addAttribute("ToSearch", "hidden");
+        }else {
+            Reservations theReservation = new Reservations();
+            theModel.addAttribute("addReservation", theReservation);
 
-        theModel.addAttribute("reservationId", reservationId);
+            theModel.addAttribute("messageSelect", "Seleziona l'auto da noleggiare");
+            theModel.addAttribute("button_ok_text", "Conferma Noleggio");
+            theModel.addAttribute("reservationId", reservationId);
+            theModel.addAttribute("titolo", "Stai eseguendo un noleggio auto");
+            theModel.addAttribute("ToSearch", "hidden");
+
+            SimpleDateFormat pattern = new SimpleDateFormat("yyyy-MM-dd");
+            String dateFromConvert = pattern.format(dateFrom);
+            String dateToConvert = pattern.format(dateTo);
+
+            theModel.addAttribute("dateFromSelect", dateFromConvert);
+            theModel.addAttribute("dateToSelect", dateToConvert);
+        }
 
 
-
-        theModel.addAttribute("titolo", "Stai eseguendo un noleggio auto");
-        theModel.addAttribute("ToSearch", "hidden");
-        theModel.addAttribute("button_verify", "Verifica Disponibilità");
-        theModel.addAttribute("button_ok_text", "Conferma Noleggio");
-        theModel.addAttribute("messageSelect", "Seleziona l'auto da noleggiare");
-
-        SimpleDateFormat pattern = new SimpleDateFormat("yyyy-MM-dd");
-        String dateFromConvert = pattern.format(dateFrom);
-        String dateToConvert = pattern.format(dateTo);
-
-        theModel.addAttribute("dateFromSelect", dateFromConvert);
-        theModel.addAttribute("dateToSelect", dateToConvert);
         return "manageReservation";
     }
 
