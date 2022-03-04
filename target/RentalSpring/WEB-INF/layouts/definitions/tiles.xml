@@ -47,5 +47,17 @@
         <put-attribute name="content" value="/WEB-INF/view/manageReservation.jsp"/>
     </definition>
 
+    <!--LOGIN-->
+    <definition name="baseLogin" template="/WEB-INF/layouts/template/baseLogin.jsp">
+        <put-attribute name="titolo" value=""/>
+        <put-attribute name="content" value=""/>
+    </definition>
+
+    <definition name="login" extends="baseLogin">
+        <put-attribute name="titolo" value="Accesso al sito"/>
+        <put-attribute name="content" value="/WEB-INF/view/login.jsp"/>
+    </definition>
+
+
 
 </tiles-definitions>

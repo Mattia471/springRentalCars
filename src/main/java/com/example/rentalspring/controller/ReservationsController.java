@@ -6,7 +6,6 @@ import com.example.rentalspring.domain.Users;
 import com.example.rentalspring.service.CarsService;
 import com.example.rentalspring.service.ReservationsService;
 import com.example.rentalspring.service.UsersService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,11 +21,10 @@ import java.util.List;
 @RequestMapping("/")
 public class ReservationsController {
 
-    @Autowired
-    private ReservationsService reservationsService;
 
 
     //instanzio i servizi di tutto le entità per utilizzare all'interno del controller
+    private final ReservationsService reservationsService;
     private final UsersService usersService;
     private final CarsService carsService;
 
