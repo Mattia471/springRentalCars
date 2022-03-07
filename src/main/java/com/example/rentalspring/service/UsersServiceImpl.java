@@ -30,6 +30,11 @@ public class UsersServiceImpl implements UsersService
     }
 
     @Override
+    public Users getEmailBySurname(String surname) {
+        return usersDao.getEmailBySurname(surname);
+    }
+
+    @Override
     public List<Users> getByString(String filter) {
         return usersDao.getByString(filter);
     }

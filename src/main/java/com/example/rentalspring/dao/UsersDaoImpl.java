@@ -6,6 +6,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.TypedQuery;
@@ -20,6 +21,9 @@ public class UsersDaoImpl extends AbstractDao<Users, Integer>
     implements UsersDao
 {
 
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public List< Users > getCustomers() {
@@ -44,7 +48,27 @@ public class UsersDaoImpl extends AbstractDao<Users, Integer>
     @Override
     public void saveCustomer(Users theCustomer) {
         Session currentSession = entityManager.unwrap(Session.class);
+        theCustomer.setPassword(passwordEncoder.encode(theCustomer.getPassword())); //password criptata
         currentSession.saveOrUpdate(theCustomer);
+    }
+
+    @Override
+    public Users getEmailBySurname(String surname) {
+        Session session = entityManager.unwrap(Session.class);
+
+
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaQuery< Users > cq = cb.createQuery(Users.class);
+
+        Root< Users > root = cq.from(Users.class);
+        ParameterExpression<String> f = cb.parameter(String.class);
+        cq.select(root).where(cb.like(root.get("email"), f));
+
+        TypedQuery<Users> query = session.createQuery(cq);
+        query.setParameter(f, surname);
+        Users results = query.getSingleResult();
+
+        return results;
     }
 
     @Override

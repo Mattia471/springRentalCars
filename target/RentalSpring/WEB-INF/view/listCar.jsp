@@ -12,6 +12,9 @@
             <a href="newCar" class="btn btn-xs btn-success">Inserisci auto</a>
         </div>
     </div>
+    <sec:authorize access="hasRole('ADMIN')">
+        <td><a href="<c:url value='/edit-user-${user.ssoId}' />" class="btn btn-success custom-width">edit</a></td>
+    </sec:authorize>
     <div class="row">
         <table class="table table-bordered table-dark ">
             <thead>

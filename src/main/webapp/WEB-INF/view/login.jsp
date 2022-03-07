@@ -31,10 +31,10 @@
                         <p>Logout eseguito con successo!</p>
                     </div>
                 </c:if>
-                <label for="userId">Email</label>
-                <input type="text" id="userId" class="fadeIn form-control" name="userId" placeholder="email">
+                <label for="username">Email</label>
+                <input type="text" id="username" name="email" class="fadeIn form-control"  placeholder="email">
                 <label for="password">Password</label>
-                <input type="text" id="password" class="fadeIn form-control" name="password" placeholder="password">
+                <input type="text" id="password" name="password" class="fadeIn form-control" placeholder="password">
                 <br>
                 <input type="submit" class="fadeIn btn btn-success" value="Log In">
             </form>

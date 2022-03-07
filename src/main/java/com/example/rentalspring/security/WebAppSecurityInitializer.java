@@ -1,4 +1,4 @@
-package com.example.rentalspring.config;
+package com.example.rentalspring.security;
 
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 

@@ -10,6 +10,8 @@ public interface UsersService {
 
     void saveCustomer(Users theUser);
 
+    Users getEmailBySurname(String surname);
+
     List < Users > getByString(String filter);
 
     Users getCustomer(int Id);
