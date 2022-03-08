@@ -10,7 +10,7 @@ public interface UsersService {
 
     void saveCustomer(Users theUser);
 
-    Users getEmailBySurname(String surname);
+    Users getEmailBySurname(String email);
 
     List < Users > getByString(String filter);
 

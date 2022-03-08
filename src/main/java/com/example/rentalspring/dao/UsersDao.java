@@ -10,7 +10,7 @@ public interface UsersDao
 
     public void saveCustomer(Users theCustomer);
 
-    Users getEmailBySurname(String surname);
+    Users getEmailBySurname(String email);
 
     public List < Users > getByString(String filter);
 

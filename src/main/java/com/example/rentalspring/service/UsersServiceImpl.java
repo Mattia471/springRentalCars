@@ -13,7 +13,6 @@ import java.util.List;
 public class UsersServiceImpl implements UsersService
 {
 
-
     @Autowired
     private UsersDao usersDao;
 
@@ -30,8 +29,8 @@ public class UsersServiceImpl implements UsersService
     }
 
     @Override
-    public Users getEmailBySurname(String surname) {
-        return usersDao.getEmailBySurname(surname);
+    public Users getEmailBySurname(String email) {
+        return usersDao.getEmailBySurname(email);
     }
 
     @Override

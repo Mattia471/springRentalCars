@@ -1,7 +1,6 @@
 package com.example.rentalspring.service;
 
 import com.example.rentalspring.domain.Users;
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +24,9 @@ public class CustomUserDetailsService implements UserDetailsService
     private UsersService usersService;
 
     @Transactional
-    public UserDetails loadUserByUsername(String surname)
+    public UserDetails loadUserByUsername(String email)
             throws UsernameNotFoundException {
-        Users users = usersService.getEmailBySurname(surname); //recupera  valore univoco
+        Users users = usersService.getEmailBySurname(email); //recupera  valore univoco
         logger.info("User : {}", users);
         if(users==null){
             logger.info("User not found");

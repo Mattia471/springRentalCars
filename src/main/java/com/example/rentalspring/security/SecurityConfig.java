@@ -25,18 +25,31 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+        auth.userDetailsService(userDetailsService);
         auth.authenticationProvider(authenticationProvider());
     }
 
+
+    //array url permessi alle tipologie di utenti
+    private static final String[] ADMIN_PERMIT = {
+            "/RentalSpring_war_exploded/listCustomer"
+    };
+    private static final String[] CUSTOMER_PERMIT = {
+            "/RentalSpring_war_exploded/listReservation"
+    };
+
+
+
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/RentalSpring_war_exploded/**")
-                .access("hasRole('ANONYMOUS') or hasRole('ADMIN')")
-                .antMatchers("/RentalSpring_war_exploded/listCustomer")
-                .access("hasRole('ADMIN')")
-                    .and()
+        //disable solo in fase di test
+        http.csrf().disable()
+                .authorizeRequests()
+                .antMatchers("/RentalSpring_war_exploded/login").permitAll()
+                .antMatchers(CUSTOMER_PERMIT).access("hasRole('CUSTOMER')")
+                .antMatchers(ADMIN_PERMIT).access("hasRole('ADMIN')")
+                .and()
                     .formLogin()
                     .loginPage("/login")
                     .loginProcessingUrl("/login")
@@ -58,6 +71,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
+    //DIPENDENZA RICORSIVA ERRORE DA QUI ->USERSERVICE E TORNA INDIETRO
     @Bean
     public AuthenticationTrustResolver getAuthenticationTrustResolver() {
         return new AuthenticationTrustResolverImpl();

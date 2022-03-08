@@ -53,7 +53,7 @@ public class UsersDaoImpl extends AbstractDao<Users, Integer>
     }
 
     @Override
-    public Users getEmailBySurname(String surname) {
+    public Users getEmailBySurname(String email) {
         Session session = entityManager.unwrap(Session.class);
 
 
@@ -65,7 +65,7 @@ public class UsersDaoImpl extends AbstractDao<Users, Integer>
         cq.select(root).where(cb.like(root.get("email"), f));
 
         TypedQuery<Users> query = session.createQuery(cq);
-        query.setParameter(f, surname);
+        query.setParameter(f, email);
         Users results = query.getSingleResult();
 
         return results;
