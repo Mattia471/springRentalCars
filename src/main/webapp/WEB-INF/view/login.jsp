@@ -11,7 +11,7 @@
     <center>
         <div class="col-6">
             <h1>Login Rental Cars</h1>
-            <c:url var="loginUrl" value="/login"/>
+            <c:url var="loginUrl" value="/" />
             <form action="${loginUrl}" method="POST">
 
                 <c:if test="${param.error != null}">
@@ -22,20 +22,21 @@
 
                 <c:if test="${param.forbidden != null}">
                     <div class="alert alert-danger">
-                        <p>Accesso Negato!</p>
+                        <p>Non hai i permessi per accedere!</p>
                     </div>
                 </c:if>
 
                 <c:if test="${param.logout != null}">
-                    <div class="alert alert-danger">
+                    <div class="alert alert-success">
                         <p>Logout eseguito con successo!</p>
                     </div>
                 </c:if>
-                <label for="username">Email</label>
-                <input type="text" id="username" name="email" class="fadeIn form-control"  placeholder="email">
+                <label for="email">Email</label>
+                <input type="text" id="email" name="email" class="fadeIn form-control"  placeholder="email">
                 <label for="password">Password</label>
                 <input type="text" id="password" name="password" class="fadeIn form-control" placeholder="password">
                 <br>
+                <input type="hidden" name="${_csfr.parameterName}" value="${_csfr.token}" />
                 <input type="submit" class="fadeIn btn btn-success" value="Log In">
             </form>
         </div>

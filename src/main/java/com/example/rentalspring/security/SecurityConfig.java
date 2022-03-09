@@ -4,8 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationTrustResolver;
-import org.springframework.security.authentication.AuthenticationTrustResolverImpl;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -23,38 +21,57 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Qualifier("customUserDetailsService")
     UserDetailsService userDetailsService;
 
-    @Autowired
-    public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService);
-        auth.authenticationProvider(authenticationProvider());
+    @Override
+    public void configure(final AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
 
 
     //array url permessi alle tipologie di utenti
     private static final String[] ADMIN_PERMIT = {
-            "/RentalSpring_war_exploded/listCustomer"
+            "/listCustomer" ,
+            "/newCar",
+            "/newCustomer",
+            "/listReservationsUser",
+            "/declineReservation",
+            "/approveReservation"
     };
+
     private static final String[] CUSTOMER_PERMIT = {
-            "/RentalSpring_war_exploded/listReservation"
+            "/listReservations",
     };
 
-
+    private static final String[] ALL_PERMIT = {
+            "/listCar",
+            "/profile",
+            "/newReservation",
+            "/myProfile"
+    };
 
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         //disable solo in fase di test
-        http.csrf().disable()
+        http
                 .authorizeRequests()
-                .antMatchers("/RentalSpring_war_exploded/login").permitAll()
+                .antMatchers("/login").permitAll()
                 .antMatchers(CUSTOMER_PERMIT).access("hasRole('CUSTOMER')")
                 .antMatchers(ADMIN_PERMIT).access("hasRole('ADMIN')")
+                .antMatchers(ALL_PERMIT).permitAll()
                 .and()
-                    .formLogin()
-                    .loginPage("/login")
-                    .loginProcessingUrl("/login")
-                    .usernameParameter("email")
-                    .passwordParameter("password");
+                .formLogin()
+                .loginPage("/")
+                .loginProcessingUrl("/")
+                .failureUrl("/?error")
+                .defaultSuccessUrl("/listCar")
+                .usernameParameter("email")
+                .passwordParameter("password")
+                .and()
+                .exceptionHandling().accessDeniedPage("/?forbidden")
+                .and()
+                .logout()
+                .logoutUrl("/logout")
+                .and().csrf().disable();
     }
 
     @Bean
@@ -70,10 +87,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return authenticationProvider;
     }
 
-
-    //DIPENDENZA RICORSIVA ERRORE DA QUI ->USERSERVICE E TORNA INDIETRO
-    @Bean
-    public AuthenticationTrustResolver getAuthenticationTrustResolver() {
-        return new AuthenticationTrustResolverImpl();
-    }
 }

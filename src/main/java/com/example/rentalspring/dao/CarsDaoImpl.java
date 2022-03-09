@@ -38,9 +38,10 @@ public class CarsDaoImpl extends AbstractDao<Cars, Integer>
         //RESERVATIONS
         Criteria cbReservation = session.createCriteria(Reservations.class);
 
-        Criterion q1R = Restrictions.not(
+
+        Criterion q1R =
                 Restrictions.or(Restrictions.between("startDate", dateFrom, dateTo),
-                Restrictions.between("endDate", dateFrom, dateTo)));
+                Restrictions.between("endDate", dateFrom, dateTo));
 
         cbReservation.add(q1R);
 
@@ -48,6 +49,7 @@ public class CarsDaoImpl extends AbstractDao<Cars, Integer>
 
         //RECUPERO ID AUTO OCCUPATE
         List<Integer> carsId = new ArrayList<>(listReservations.size()); //array che conterrà id car
+
         for (int c = 0; c < listReservations.size(); c++) {
             carsId.add(listReservations.get(c).getCar().getId()); //estrapolo e assegno id car nell'array
         }
@@ -58,7 +60,14 @@ public class CarsDaoImpl extends AbstractDao<Cars, Integer>
 
             cbCars.add(
                     // replace "id" below with property name, depending on what you're filtering against
-                    Restrictions.not(Restrictions.in("id", carsId))
+                    Restrictions.not(
+                            Restrictions.or(
+                            Restrictions.in
+                                    ("id", carsId),
+                                    Restrictions.lt
+                                            ("id", 0)
+                            )
+                    )
             );
 
         return (List<Cars>) cbCars.list();

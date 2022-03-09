@@ -3,6 +3,7 @@ package com.example.rentalspring.service;
 import com.example.rentalspring.dao.ReservationsDao;
 import com.example.rentalspring.domain.Cars;
 import com.example.rentalspring.domain.Reservations;
+import com.example.rentalspring.domain.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,8 +38,8 @@ public class ReservationsServiceImpl implements ReservationsService
     }
 
     @Override
-    public void editReservation(int theId, Date startDate, Date endDate, Cars carId) {
-        reservationsDao.editReservation(theId, startDate, endDate, carId);
+    public void editReservation(int theId, Date startDate, Date endDate, Users user, Cars carIdl) {
+        reservationsDao.editReservation(theId, startDate, endDate,user, carIdl);
     }
 
     @Override

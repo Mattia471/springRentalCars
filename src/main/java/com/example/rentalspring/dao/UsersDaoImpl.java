@@ -2,8 +2,11 @@ package com.example.rentalspring.dao;
 
 
 import com.example.rentalspring.domain.Users;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -28,12 +31,15 @@ public class UsersDaoImpl extends AbstractDao<Users, Integer>
     @Override
     public List< Users > getCustomers() {
         Session session = entityManager.unwrap(Session.class);
-        CriteriaBuilder cb = session.getCriteriaBuilder();
-        CriteriaQuery< Users > cq = cb.createQuery(Users.class);
-        Root< Users > root = cq.from(Users.class);
-        cq.select(root);
-        Query query = session.createQuery(cq);
-        return query.getResultList();
+
+        //RESERVATIONS
+        Criteria cbUsers = session.createCriteria(Users.class);
+
+        Criterion q1U = Restrictions.eq("isAdmin",false);
+
+        cbUsers.add(q1U);
+
+        return (List<Users>) cbUsers.list();
     }
 
 
@@ -66,9 +72,9 @@ public class UsersDaoImpl extends AbstractDao<Users, Integer>
 
         TypedQuery<Users> query = session.createQuery(cq);
         query.setParameter(f, email);
-        Users results = query.getSingleResult();
+        Users username = query.getSingleResult();
 
-        return results;
+        return username;
     }
 
     @Override

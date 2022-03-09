@@ -1,6 +1,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -26,14 +27,25 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item ">
+                <sec:authorize access="hasRole('ADMIN')">
                 <a class="nav-link" href="listCustomer">Home <span class="sr-only">(current)</span></a>
-            </li>
+                </sec:authorize>
+                <sec:authorize access="hasRole('CUSTOMER')">
+                    <a class="nav-link" href="listReservations">Home <span class="sr-only">(current)</span></a>
+                </sec:authorize>
+                        </li>
             <li class="nav-item ">
                 <a class="nav-link" href="listCar">Parco Auto <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item ">
-                <a class="nav-link" href="#">Il mio profilo<span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="myProfile">Il mio profilo<span class="sr-only">(current)</span></a>
             </li>
+            <sec:authorize access="isAuthenticated()">
+                <li class="nav-item ">
+                    <a class="nav-link" href="logout"><u>Logout</u></a>
+                </li>
+            </sec:authorize>
+
         </ul>
         <form class="form-inline my-2 my-lg-0" action="searchUsers" method="GET">
             <input class="form-control mr-sm-2" type="search" name="filter" placeholder="${ToSearch}" ${ToSearch} aria-label="Search">

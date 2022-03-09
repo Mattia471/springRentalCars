@@ -3,6 +3,7 @@ package com.example.rentalspring.controller;
 import com.example.rentalspring.domain.Cars;
 import com.example.rentalspring.domain.Reservations;
 import com.example.rentalspring.service.CarsService;
+import freemarker.template.SimpleDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -10,25 +11,18 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 @Controller
-@RequestMapping("/")
 public class CarsController {
 
     @Autowired
     private CarsService carsService;
 
-    //QUESTO METODO PERMETTE DI CONVERTIRE AUTOMATICAMENTE LE DATE NEL PATTERN RICHIESTO
-    //DA STUDIARE
-    @InitBinder
-    public void initBinder(WebDataBinder dataBinder) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        dataBinder.registerCustomEditor(Date.class, new CustomDateEditor(simpleDateFormat, false));
-
-    }
 
     //POST
     @PostMapping(value = "/saveCar")
@@ -69,18 +63,25 @@ public class CarsController {
 
 
     @GetMapping("/searchCar")
-    public String availableCars(Model theModel,@RequestParam("reservationId") int reservationId, @RequestParam("dateFrom") Date dateFrom, @RequestParam("dateTo") Date dateTo) {
+    public String availableCars(Model theModel,@RequestParam("reservationId") int reservationId, @RequestParam("dateFrom") String dateFrom, @RequestParam("dateTo") String dateTo) throws ParseException {
 
+        //formatto le stringhe in date
+        SimpleDateFormat pattern = new SimpleDateFormat("yyyy-MM-dd");
+        Date startDateTemp = pattern.parse(dateFrom);
+        Date endDateTemp = pattern.parse(dateTo);
 
-        List<Cars> theCars = carsService.getAvailableCars(dateFrom, dateTo);
+        List<Cars> theCars = carsService.getAvailableCars(startDateTemp, endDateTemp);
         theModel.addAttribute("cars", theCars);
 
 
-        if(dateFrom.after(dateTo) || dateTo.before(dateFrom)){
+        //controllo se date inserite solo valide
+        if(startDateTemp.after(endDateTemp) || endDateTemp.before(startDateTemp)){
+
             theModel.addAttribute("messageSelect", "Attenzione! Date inserite non corrette, reinseriscile");
             theModel.addAttribute("button_ok_show", "hidden");
             theModel.addAttribute("button_verify", "Verifica Disponibilità");
             theModel.addAttribute("ToSearch", "hidden");
+
         }else {
             Reservations theReservation = new Reservations();
             theModel.addAttribute("addReservation", theReservation);
@@ -89,14 +90,12 @@ public class CarsController {
             theModel.addAttribute("button_ok_text", "Conferma Noleggio");
             theModel.addAttribute("reservationId", reservationId);
             theModel.addAttribute("titolo", "Stai eseguendo un noleggio auto");
+            theModel.addAttribute("button_verify", "Verifica Disponibilità");
             theModel.addAttribute("ToSearch", "hidden");
 
-            SimpleDateFormat pattern = new SimpleDateFormat("yyyy-MM-dd");
-            String dateFromConvert = pattern.format(dateFrom);
-            String dateToConvert = pattern.format(dateTo);
 
-            theModel.addAttribute("dateFromSelect", dateFromConvert);
-            theModel.addAttribute("dateToSelect", dateToConvert);
+            theModel.addAttribute("dateFromSelect", pattern.format(startDateTemp));
+            theModel.addAttribute("dateToSelect", pattern.format(endDateTemp));
         }
 
 

@@ -22,9 +22,11 @@
           <element id="library" level="project" name="Maven: org.springframework:spring-context:5.2.5.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-expression:5.2.5.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-web:5.2.5.RELEASE" />
-          <element id="library" level="project" name="Maven: org.springframework.security:spring-security-web:5.3.1.RELEASE" />
-          <element id="library" level="project" name="Maven: org.springframework.security:spring-security-core:5.3.1.RELEASE" />
-          <element id="library" level="project" name="Maven: org.springframework.security:spring-security-config:5.3.1.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework.security:spring-security-web:5.1.5.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework.security:spring-security-core:5.1.5.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework.security:spring-security-config:5.1.5.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework.security:spring-security-taglibs:5.1.5.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework.security:spring-security-acl:5.1.5.RELEASE" />
           <element id="library" level="project" name="Maven: javax.servlet:servlet-api:2.5" />
           <element id="library" level="project" name="Maven: javax.servlet.jsp:javax.servlet.jsp-api:2.3.3" />
           <element id="library" level="project" name="Maven: javax.servlet:jstl:1.2" />

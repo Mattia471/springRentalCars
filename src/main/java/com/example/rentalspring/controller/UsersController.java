@@ -4,6 +4,8 @@ import com.example.rentalspring.domain.Users;
 import com.example.rentalspring.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
@@ -14,19 +16,10 @@ import java.util.Date;
 import java.util.List;
 
 @Controller
-@RequestMapping("/")
 public class UsersController {
+
     @Autowired
     private UsersService usersService;
-
-    //QUESTO METODO PERMETTE DI CONVERTIRE AUTOMATICAMENTE LE DATE NEL PATTERN RICHIESTO
-    //DA STUDIARE
-    @InitBinder
-    public void initBinder(WebDataBinder dataBinder) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        dataBinder.registerCustomEditor(Date.class, new CustomDateEditor(simpleDateFormat, false));
-
-    }
 
 
     //POST
@@ -64,6 +57,22 @@ public class UsersController {
         theModel.addAttribute("customerId", theId);
         theModel.addAttribute("customer", theCustomer);
         theModel.addAttribute("titolo", "Profilo utente");
+        theModel.addAttribute("button", "Modifica Dati");
+        theModel.addAttribute("ToSearch", "hidden");
+        return "manageCustomer";
+    }
+
+    @GetMapping("/myProfile")
+    public String myProfile(Model theModel) {
+        //recupera l'id dalla sessione del ContextHolder
+        UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        Users userId = usersService.getEmailBySurname(principal.getUsername());
+
+        Users theCustomer = usersService.getCustomer(userId.getId());
+        theModel.addAttribute("customerId", userId.getId());
+        theModel.addAttribute("customer", theCustomer);
+        theModel.addAttribute("titolo", "Dettagli Profilo");
         theModel.addAttribute("button", "Modifica Dati");
         theModel.addAttribute("ToSearch", "hidden");
         return "manageCustomer";

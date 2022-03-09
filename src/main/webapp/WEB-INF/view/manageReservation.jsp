@@ -43,7 +43,7 @@
     <form:form action="saveReservation" modelAttribute="addReservation" method="post">
         <input name="startDate" value="${dateFromSelect}" hidden>
         <input name="endDate" value="${dateToSelect}" hidden >
-        <input value="29" name="userId" hidden> <!--DA MODIFICARE CON ID DELL'UTENTE APPENA SARA' POSSIBILE-->
+        <input value="33" name="userId" hidden> <!--DA MODIFICARE CON ID DELL'UTENTE APPENA SARA' POSSIBILE-->
 
         <c:choose>
             <c:when test="${reservationId!=null}">

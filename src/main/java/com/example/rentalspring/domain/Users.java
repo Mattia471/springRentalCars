@@ -30,6 +30,7 @@ public class Users implements Serializable {
 
 
     @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     @Column
     private Date birthdate;
 
