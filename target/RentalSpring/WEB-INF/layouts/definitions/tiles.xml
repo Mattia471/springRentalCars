@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+        "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+
+<tiles-definitions>
+    <!--TEMPLATE BASE-->
+    <definition name="baseLayout" template="/WEB-INF/layouts/template/base.jsp">
+        <put-attribute name="titolo" value=""/>
+        <put-attribute name="content" value=""/>
+    </definition>
+
+    <!--TEMPLATE PAGINE-->
+    <definition name="adminHome" extends="baseLayout">
+        <put-attribute name="titolo" value="Area Admin"/>
+        <put-attribute name="content" value="/WEB-INF/view/adminHome.jsp"/>
+        <put-attribute name="active" value="active"/>
+
+    </definition>
+
+    <definition name="manageCustomer" extends="baseLayout">
+        <put-attribute name="titolo" value="Gestione Customer"/>
+        <put-attribute name="content" value="/WEB-INF/view/manageCustomer.jsp"/>
+    </definition>
+
+    <definition name="listCar" extends="baseLayout">
+        <put-attribute name="titolo" value="Parco Auto"/>
+        <put-attribute name="content" value="/WEB-INF/view/listCar.jsp"/>
+    </definition>
+
+    <definition name="manageCar" extends="baseLayout">
+        <put-attribute name="titolo" value="Parco Auto"/>
+        <put-attribute name="content" value="/WEB-INF/view/manageCar.jsp"/>
+    </definition>
+
+    <definition name="viewProfile" extends="baseLayout">
+        <put-attribute name="titolo" value="Profilo Utente"/>
+        <put-attribute name="content" value="/WEB-INF/view/viewProfile.jsp"/>
+    </definition>
+
+    <definition name="customerHome" extends="baseLayout">
+        <put-attribute name="titolo" value="Area Personale"/>
+        <put-attribute name="content" value="/WEB-INF/view/customerHome.jsp"/>
+    </definition>
+
+    <definition name="manageReservation" extends="baseLayout">
+        <put-attribute name="titolo" value="Noleggio Auto"/>
+        <put-attribute name="content" value="/WEB-INF/view/manageReservation.jsp"/>
+    </definition>
+
+    <!--LOGIN-->
+    <definition name="baseLogin" template="/WEB-INF/layouts/template/baseLogin.jsp">
+        <put-attribute name="titolo" value=""/>
+        <put-attribute name="content" value=""/>
+    </definition>
+
+    <definition name="login" extends="baseLogin">
+        <put-attribute name="titolo" value="Accesso al sito"/>
+        <put-attribute name="content" value="/WEB-INF/view/login.jsp"/>
+    </definition>
+
+
+
+</tiles-definitions>

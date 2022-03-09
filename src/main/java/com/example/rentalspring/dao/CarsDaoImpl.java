@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -58,15 +59,15 @@ public class CarsDaoImpl extends AbstractDao<Cars, Integer>
         //CARS
         Criteria cbCars = session.createCriteria(Cars.class);
 
+        if(carsId.isEmpty()){
+            carsId= Collections.singletonList(0);
+        }
+
             cbCars.add(
-                    // replace "id" below with property name, depending on what you're filtering against
+
                     Restrictions.not(
-                            Restrictions.or(
                             Restrictions.in
-                                    ("id", carsId),
-                                    Restrictions.lt
-                                            ("id", 0)
-                            )
+                                    ("id", carsId )
                     )
             );
 

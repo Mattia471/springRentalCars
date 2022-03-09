@@ -9,6 +9,7 @@ import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
@@ -25,8 +26,6 @@ public class UsersDaoImpl extends AbstractDao<Users, Integer>
 {
 
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
     @Override
     public List< Users > getCustomers() {
@@ -54,7 +53,7 @@ public class UsersDaoImpl extends AbstractDao<Users, Integer>
     @Override
     public void saveCustomer(Users theCustomer) {
         Session currentSession = entityManager.unwrap(Session.class);
-        theCustomer.setPassword(passwordEncoder.encode(theCustomer.getPassword())); //password criptata
+        theCustomer.setPassword(new BCryptPasswordEncoder().encode(theCustomer.getPassword())); //password criptata
         currentSession.saveOrUpdate(theCustomer);
     }
 
