@@ -1,18 +1,16 @@
 package com.example.rentalspring.controller;
 
 import com.example.rentalspring.domain.Users;
+import com.example.rentalspring.dto.UsersDto;
 import com.example.rentalspring.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.text.ParseException;
 import java.util.List;
 
 @Controller
@@ -22,11 +20,15 @@ public class UsersController {
     private UsersService usersService;
 
 
+
     //POST
     @PostMapping(value = "/saveCustomer")
-    public String saveCustomer(@ModelAttribute("customer") Users theCustomer) {
+    public String saveCustomer(@ModelAttribute("customer") UsersDto theCustomer) throws ParseException {
+
         usersService.saveCustomer(theCustomer);
-        return "redirect:/listCustomer";
+
+        return "redirect:/listCar";
+
     }
 
 
@@ -53,7 +55,7 @@ public class UsersController {
 
     @GetMapping("/viewProfile")
     public String viewProfile(Model theModel, @RequestParam("customerId") int theId) {
-        Users theCustomer = usersService.getCustomer(theId);
+        UsersDto theCustomer = usersService.getCustomer(theId);
         theModel.addAttribute("customerId", theId);
         theModel.addAttribute("customer", theCustomer);
         theModel.addAttribute("titolo", "Profilo utente");
@@ -64,12 +66,11 @@ public class UsersController {
 
     @GetMapping("/myProfile")
     public String myProfile(Model theModel) {
-        //recupera l'id dalla sessione del ContextHolder
+        //recupera l'utente dalla sessione del ContextHolder
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
         Users userId = usersService.getEmailBySurname(principal.getUsername());
 
-        Users theCustomer = usersService.getCustomer(userId.getId());
+        UsersDto theCustomer = usersService.getCustomer(userId.getId());
         theModel.addAttribute("customerId", userId.getId());
         theModel.addAttribute("customer", theCustomer);
         theModel.addAttribute("titolo", "Dettagli Profilo");

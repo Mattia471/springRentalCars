@@ -59,9 +59,11 @@ public class CarsDaoImpl extends AbstractDao<Cars, Integer>
         //CARS
         Criteria cbCars = session.createCriteria(Cars.class);
 
+        //se l'array è vuoto imposta unico valore a 0
         if(carsId.isEmpty()){
             carsId= Collections.singletonList(0);
         }
+
 
             cbCars.add(
 
