@@ -11,6 +11,7 @@ C:\Users\Mattia\Desktop\RentalSpring\src\main\java\com\example\rentalspring\dao\
 C:\Users\Mattia\Desktop\RentalSpring\src\main\java\com\example\rentalspring\service\CustomUserDetailsService.java
 C:\Users\Mattia\Desktop\RentalSpring\src\main\java\com\example\rentalspring\service\UsersServiceImpl.java
 C:\Users\Mattia\Desktop\RentalSpring\src\main\java\com\example\rentalspring\service\ReservationsService.java
+C:\Users\Mattia\Desktop\RentalSpring\src\main\java\com\example\rentalspring\dto\UsersDto.java
 C:\Users\Mattia\Desktop\RentalSpring\src\main\java\com\example\rentalspring\config\HibernateConfig.java
 C:\Users\Mattia\Desktop\RentalSpring\src\main\java\com\example\rentalspring\dao\ReservationsDaoImpl.java
 C:\Users\Mattia\Desktop\RentalSpring\src\main\java\com\example\rentalspring\domain\Cars.java

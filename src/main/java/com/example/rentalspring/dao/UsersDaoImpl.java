@@ -53,7 +53,6 @@ public class UsersDaoImpl extends AbstractDao<Users, Integer>
     @Override
     public void saveCustomer(Users theCustomer) {
         Session currentSession = entityManager.unwrap(Session.class);
-        theCustomer.setPassword(new BCryptPasswordEncoder().encode(theCustomer.getPassword())); //password criptata
         currentSession.saveOrUpdate(theCustomer);
     }
 

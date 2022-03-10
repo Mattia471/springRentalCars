@@ -41,8 +41,18 @@ public class CarsDaoImpl extends AbstractDao<Cars, Integer>
 
 
         Criterion q1R =
-                Restrictions.or(Restrictions.between("startDate", dateFrom, dateTo),
-                Restrictions.between("endDate", dateFrom, dateTo));
+                Restrictions.and
+                        (
+                Restrictions.or(
+                        Restrictions.between(
+                                "startDate", dateFrom, dateTo),
+                        Restrictions.between(
+                                "endDate", dateFrom, dateTo)),
+                                Restrictions.or(
+                                        Restrictions.eq
+                                            ("status", "CONFERMATA" ),
+                                        Restrictions.eq
+                                                ("status", "IN ATTESA" )));
 
         cbReservation.add(q1R);
 
@@ -68,9 +78,9 @@ public class CarsDaoImpl extends AbstractDao<Cars, Integer>
             cbCars.add(
 
                     Restrictions.not(
-                            Restrictions.in
-                                    ("id", carsId )
-                    )
+                                            Restrictions.in
+                                                    ("id", carsId )
+                                    )
             );
 
         return (List<Cars>) cbCars.list();

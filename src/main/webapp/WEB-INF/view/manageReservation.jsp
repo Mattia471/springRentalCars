@@ -55,7 +55,7 @@
         </c:choose>
         <center><b style="font-size: 20px">${messageSelect}</b></center>
         <div class="row">
-            <table class="table table-bordered table-dark ">
+            <table class="table table-bordered table-dark " ${table_show}>
                 <thead>
                 <tr>
                     <th scope="col"></th>
@@ -84,7 +84,6 @@
 
         <div class="row">
             <div class="col">
-                <label>*</label>
                 <input type="submit" class="form-control btn btn-success" value="${button_ok_text}" ${button_ok_show}>
             </div>
         </div>

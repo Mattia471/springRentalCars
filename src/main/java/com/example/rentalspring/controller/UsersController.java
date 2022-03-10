@@ -1,16 +1,21 @@
 package com.example.rentalspring.controller;
 
 import com.example.rentalspring.domain.Users;
-import com.example.rentalspring.dto.UsersDto;
 import com.example.rentalspring.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -20,15 +25,26 @@ public class UsersController {
     private UsersService usersService;
 
 
-
     //POST
     @PostMapping(value = "/saveCustomer")
-    public String saveCustomer(@ModelAttribute("customer") UsersDto theCustomer) throws ParseException {
+    public String saveCustomer(@ModelAttribute("customer") Users theCustomer) {
+        Users user = usersService.getCustomer(theCustomer.getId());
 
-        usersService.saveCustomer(theCustomer);
+        PasswordEncoder encoder = new BCryptPasswordEncoder();
+        if(user!=null) {
+            //controllo se password inserita è uguale a quella precedente
+            if (!encoder.matches(theCustomer.getPassword(), user.getPassword()) && !theCustomer.getPassword().equals(user.getPassword())) {
+                theCustomer.setPassword(encoder.encode(theCustomer.getPassword())); //password criptata
+                usersService.saveCustomer(theCustomer);
+            } else {
+                usersService.saveCustomer(theCustomer);
+            }
+        }else{
+            theCustomer.setPassword(encoder.encode(theCustomer.getPassword())); //password criptata
+            usersService.saveCustomer(theCustomer);
+        }
 
-        return "redirect:/listCar";
-
+        return "redirect:/listCustomer";
     }
 
 
@@ -55,7 +71,7 @@ public class UsersController {
 
     @GetMapping("/viewProfile")
     public String viewProfile(Model theModel, @RequestParam("customerId") int theId) {
-        UsersDto theCustomer = usersService.getCustomer(theId);
+        Users theCustomer = usersService.getCustomer(theId);
         theModel.addAttribute("customerId", theId);
         theModel.addAttribute("customer", theCustomer);
         theModel.addAttribute("titolo", "Profilo utente");
@@ -66,11 +82,12 @@ public class UsersController {
 
     @GetMapping("/myProfile")
     public String myProfile(Model theModel) {
-        //recupera l'utente dalla sessione del ContextHolder
+        //recupera l'id dalla sessione del ContextHolder
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
         Users userId = usersService.getEmailBySurname(principal.getUsername());
 
-        UsersDto theCustomer = usersService.getCustomer(userId.getId());
+        Users theCustomer = usersService.getCustomer(userId.getId());
         theModel.addAttribute("customerId", userId.getId());
         theModel.addAttribute("customer", theCustomer);
         theModel.addAttribute("titolo", "Dettagli Profilo");

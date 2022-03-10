@@ -27,7 +27,7 @@
         </div>
         <div class="col">
             <label>Password:</label>
-            <input type="password" name="password" class="form-control border-success" value="${customer.password}">
+            <input type="password" name="password" class="form-control border-success" value="">
         </div>
     </div>
 

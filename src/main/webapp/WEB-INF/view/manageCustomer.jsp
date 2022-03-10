@@ -27,7 +27,7 @@
         </div>
         <div class="col">
             <label>Password:</label>
-            <form:input path="password" type="password" id="email" cssClass="form-control border-success"/>
+            <form:input path="password" type="password" id="password" cssClass="form-control border-success"/>
         </div>
     </div>
 
@@ -40,8 +40,9 @@
         </div>
         <div class="col">
             <label>*</label>
+            <form:input path="isAdmin" id="isAdmin" type="hidden"/>
             <form:input path="id" id="id" type="hidden"/>
-            <input type="submit" class="form-control btn btn-success" value="Crea utente">
+            <input type="submit" class="form-control btn btn-success" value="Salva Modifiche">
         </div>
     </div>
     </div>

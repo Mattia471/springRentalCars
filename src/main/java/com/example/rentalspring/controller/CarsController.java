@@ -79,6 +79,7 @@ public class CarsController {
 
             theModel.addAttribute("messageSelect", "Attenzione! Date inserite non corrette, reinseriscile");
             theModel.addAttribute("button_ok_show", "hidden");
+            theModel.addAttribute("table_show", "hidden");
             theModel.addAttribute("button_verify", "Verifica Disponibilità");
             theModel.addAttribute("ToSearch", "hidden");
 
